@@ -1,6 +1,7 @@
 import 'package:board_project/controllers/signin_controller.dart';
 import 'package:board_project/models/member.dart';
 import 'package:board_project/screens/home_screen.dart';
+import 'package:board_project/storage/local_stroage.dart';
 import 'package:board_project/widget/common_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,8 @@ class _SigninScreenState extends State<SigninScreen>{
                     );
                     bool loginCheck = await controller.trySignin(member);
                     if (loginCheck) {
+                      UserBox().setUsername(member.username);
+                      controller.clearLoginFields();
                       Get.offAllNamed('/home');
                     } else {
                       showSnackBar(context, "아이디 또는 비밀번호가 틀립니다.");

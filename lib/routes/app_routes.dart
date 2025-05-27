@@ -5,6 +5,7 @@ import 'package:board_project/screens/board_edit_screen.dart';
 import 'package:board_project/screens/board_view_screen.dart';
 import 'package:board_project/screens/home_screen.dart';
 import 'package:board_project/screens/login_screen.dart';
+import 'package:board_project/screens/profile_screen.dart';
 import 'package:board_project/screens/signin_screen.dart';
 import 'package:board_project/screens/signup_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
@@ -12,7 +13,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 class GetXRoutes{
  static final route= [
 
-  /*첫 로그인 페이지*/
+  /*처음 앱 페이지*/
   GetPage(name: "/login", page: ()=> const LoginScreen()),
 
   /*회원가입 페이지*/
@@ -23,6 +24,8 @@ class GetXRoutes{
 
   /*로그인 후 메인 화면 페이지*/
   GetPage(name: "/home", page: () => const HomeScreen()),
+
+  GetPage(name:"/profile",page: () => const ProfileScreen()),
 
   /*게시글 홈 페이지*/
   GetPage(name: '/board_home', page:()=> const BoardHomeScreen()),
@@ -35,7 +38,6 @@ class GetXRoutes{
 
   /*게시글 디테일 페이지*/
   GetPage(name: '/board_detail', page: ()=> const BoardDetailScreen()),
-  
 
   /*게시글 수정 페이지*/
   GetPage(name: '/board_edit', page: () => const BoardEditScreen())

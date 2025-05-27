@@ -38,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen>{
             CommonButton(
               label: '로그인',
               onPressed: () {
-                Get.toNamed('sign_in');
+                Get.toNamed('/sign_in');
               },
             ),
           ],

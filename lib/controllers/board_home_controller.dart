@@ -1,4 +1,5 @@
 import 'package:board_project/models/board.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../service/board_service.dart';
@@ -7,6 +8,9 @@ class BoardHomeController extends GetxController{
   final BoardService boardService = Get.find<BoardService>();
   RxInt currentTab = 0.obs;
   RxInt categoryTab = 0.obs;
+  final ScrollController scrollController = ScrollController();
+  final RxBool isLoadingMore = false.obs;
+  final RxBool hasMoreData = true.obs;
   int page=0;
   int size=10;
 
@@ -18,7 +22,13 @@ class BoardHomeController extends GetxController{
   @override
   Future<void> onInit() async{
     super.onInit();
+    scrollController.addListener(() {
+      if (!isLoadingMore.value && scrollController.position.pixels > 600 * (page + 1)) {
+        scrollAddPagingBoardList();
+      }
+    });
       await fetchDataForTab(categoryTab.value);
+
   }
 
 
@@ -55,12 +65,59 @@ class BoardHomeController extends GetxController{
 
   Future<void> fetchDataForTab(int index) async {
     try {
+      page = 0;
+      hasMoreData.value = true;
+      boardList.clear();
+
       final category = buttonLabels[index];
       final result = await boardService.getBoardList(page, size);
-      boardList.value = result;
+
+      boardList.addAll(result);
+      if (result.length < size) {
+        hasMoreData.value = false;
+      }
     } catch (e) {
       print("에러 발생: $e");
     }
   }
 
+  Future<void> refreshBoardList(int index) async {
+    page = 0;
+    hasMoreData.value = true;
+    boardList.clear();
+    try {
+      final result = await boardService.getBoardList(page, size);
+      boardList.addAll(result);
+      if (result.length < size) {
+        hasMoreData.value = false;
+      }
+    } catch (e) {
+      print("새로고침 실패: $e");
+    }
+  }
+  /*스크롤 페이징 */
+  void scrollAddPagingBoardList() async {
+    if (isLoadingMore.value || !hasMoreData.value) {
+      return;
+    }
+    if( scrollController.position.pixels < 600 * (page + 1)) {
+    return;
+    }
+    isLoadingMore.value = true;
+    page += 1;
+    try {
+      final result = await boardService.getBoardList(page, size);
+
+      if (result.isNotEmpty) {
+        boardList.addAll(result);
+      }
+      if (result.length < size) {
+        hasMoreData.value = false;
+      }
+    } catch (e) {
+      print("더 불러오기 실패: $e");
+    } finally {
+      isLoadingMore.value = false;
+    }
+  }
 }

@@ -31,7 +31,7 @@ class UserBox {
     void setUsername(String un){
       box.write(username, un);
     }
-    String getUsername(String username){
+    String getUsername(){
       return box.read(username) ?? '';
     }
 

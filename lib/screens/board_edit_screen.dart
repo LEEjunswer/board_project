@@ -143,8 +143,8 @@ class _BoardEditScreenState extends State<BoardEditScreen> {
         mainText: '게시글 수정을 취소하시겠습니까?',
         subText: '',
         button1Function: () {
-          Get.back(); // dialog
-          Get.back(); // screen
+          Get.back();
+          Get.back();
         },
         button2Function: () {
           Get.back();

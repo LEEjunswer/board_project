@@ -1,4 +1,5 @@
 import 'package:board_project/controllers/signup_controller.dart';
+import 'package:board_project/storage/local_stroage.dart';
 import 'package:board_project/widget/common_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,8 @@ class _SignupScreenState extends State<SignupScreen>{
                           );
                           bool success = await controller.trySignup(member);
                           if (success) {
+                            UserBox().setUsername(member.username);
+                            UserBox().setName(member.name);
                             showSnackBar(context, "회원가입 성공");
                             Get.offAllNamed('/home');
                           } else {
