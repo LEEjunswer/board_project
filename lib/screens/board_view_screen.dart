@@ -82,8 +82,11 @@ class _BoardViewScreenState extends State<BoardViewScreen> {
               child: Obx(() {
                 final boards = controller.boardList;
 
-                if (boards.isEmpty) {
+                if (controller.isLoadingMore.value && boards.isEmpty) {
                   return const Center(child: Text('게시글이 없습니다.'));
+                }
+                if (!controller.isLoadingMore.value && boards.isEmpty) {
+                  return const Center(child: Text('게시글 불러오는중 ...'));
                 }
                 return ListView.builder(
                   controller: controller.scrollController,

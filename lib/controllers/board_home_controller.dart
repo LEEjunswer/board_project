@@ -95,6 +95,7 @@ class BoardHomeController extends GetxController{
       print("새로고침 실패: $e");
     }
   }
+
   /*스크롤 페이징 */
   void scrollAddPagingBoardList() async {
     if (isLoadingMore.value || !hasMoreData.value) {
